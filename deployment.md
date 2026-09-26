@@ -1,63 +1,38 @@
-# Azure CLI Commands
+# Deployment Guide
 
-This file contains the Azure CLI commands used to create the resources in this project.
+## Azure Resources Created
 
-## Create Resource Group
+* Resource Group: AzureNSGRG
+* Virtual Network: AzureVNet (10.0.0.0/16)
+* Web Subnet: 10.0.1.0/24
+* Application Subnet: 10.0.2.0/24
+* Database Subnet: 10.0.3.0/24
 
-```bash
-az group create --name AzureNSGRG --location eastus
-```
+## Application Security Groups
 
-## Create Virtual Network
+* ASG-Web
+* ASG-App
+* ASG-Database
 
-```bash
-az network vnet create \
-  --resource-group AzureNSGRG \
-  --name AzureVNet \
-  --address-prefix 10.0.0.0/16
-```
+## Virtual Machines
 
-## Create Subnets
+* web-vm1
+* web-vm2
+* app-vm1
+* app-vm2
+* db-vm1
+* db-vm2
 
-```bash
-az network vnet subnet create \
-  --resource-group AzureNSGRG \
-  --vnet-name AzureVNet \
-  --name WebSubnet \
-  --address-prefix 10.0.1.0/24
+## Network Security Group Rules
 
-az network vnet subnet create \
-  --resource-group AzureNSGRG \
-  --vnet-name AzureVNet \
-  --name AppSubnet \
-  --address-prefix 10.0.2.0/24
+| Source   | Destination  | Port   | Action |
+| -------- | ------------ | ------ | ------ |
+| Internet | ASG-Web      | 80,443 | Allow  |
+| ASG-Web  | ASG-App      | 8080   | Allow  |
+| ASG-App  | ASG-Database | 3306   | Allow  |
+| Internet | ASG-Database | 3306   | Deny   |
 
-az network vnet subnet create \
-  --resource-group AzureNSGRG \
-  --vnet-name AzureVNet \
-  --name DatabaseSubnet \
-  --address-prefix 10.0.3.0/24
-```
+## Deployment Status
 
-## Create Network Security Group
+The three-tier Azure network was deployed successfully with NSG rules applied using Application Security Groups.
 
-```bash
-az network nsg create \
-  --resource-group AzureNSGRG \
-  --name AzureNSG
-```
-
-## Create Application Security Groups
-
-```bash
-az network asg create --resource-group AzureNSGRG --name ASG-Web
-az network asg create --resource-group AzureNSGRG --name ASG-App
-az network asg create --resource-group AzureNSGRG --name ASG-Database
-```
-
-## Verify Resources
-
-```bash
-az network asg list --resource-group AzureNSGRG
-az network nsg list --resource-group AzureNSGRG
-```
