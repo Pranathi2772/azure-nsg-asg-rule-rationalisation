@@ -1,0 +1,19 @@
+{
+  "resourceGroup": "RG-P028-NetworkSecurity",
+  "virtualNetwork": "P028-VNet",
+  "addressSpace": "10.0.0.0/16",
+  "subnets": [
+    {
+      "name": "FrontendSubnet",
+      "addressPrefix": "10.0.1.0/24"
+    },
+    {
+      "name": "ApplicationSubnet",
+      "addressPrefix": "10.0.2.0/24"
+    },
+    {
+      "name": "DatabaseSubnet",
+      "addressPrefix": "10.0.3.0/24"
+    }
+  ]
+}
