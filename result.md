@@ -1,39 +1,36 @@
-# Project Results
+# Project Result
+
+## Overview
+
+The Azure Network Security Group (NSG) and Application Security Group (ASG) Rule Rationalisation project was successfully implemented using Microsoft Azure cloud networking services.
 
 ## Project Outcome
 
-The Azure Network Security Group and Application Security Group Rule Rationalisation project was successfully implemented using a secure three-tier architecture.
+The project successfully demonstrates secure communication between three application layers:
 
-## Results Achieved
+- Internet → Web Layer (Allowed)
+- Web Layer → Application Layer (Allowed)
+- Application Layer → Database Layer (Allowed)
+- Internet → Database Layer (Denied)
 
-- Created a Virtual Network with Web, Application, and Database subnets.
-- Configured Application Security Groups (ASG-Web, ASG-App, ASG-Database).
-- Applied Network Security Group rules using ASGs instead of IP addresses.
-- Allowed only required communication between application layers.
-- Blocked direct Internet access to the Database subnet.
+Application Security Groups simplify NSG rule management by grouping virtual machines based on their roles instead of using IP addresses.
 
-## Deployment Screenshots
+## Key Achievements
 
-### Resource Group
+- Created an Azure Virtual Network with three subnets.
+- Configured Network Security Groups with application-based rules.
+- Created Application Security Groups for Web, Application, and Database servers.
+- Applied inbound security rules between application tiers.
+- Blocked direct Internet access to the Database layer.
+- Verified effective security rules using Azure Network Watcher.
 
-![Resource Group](screenshots/resource-group.png)
+## Benefits
 
-### Virtual Network
-
-![Virtual Network](screenshots/virtual-network.png)
-
-### Application Security Groups
-
-![Application Security Groups](screenshots/asg.png)
-
-### Network Security Group Rules
-
-![NSG Rules](screenshots/nsg-rules.png)
-
-### Successful Deployment
-
-![Deployment Success](screenshots/deployment-success.png)
+- Improved network security.
+- Reduced duplicate NSG rules.
+- Easier rule management using ASGs.
+- Better scalability for future infrastructure.
 
 ## Conclusion
 
-This project demonstrates a scalable and secure Azure networking architecture by simplifying NSG rule management with Application Security Groups.
+This project demonstrates a secure three-tier Azure network architecture using Network Security Groups and Application Security Groups. The implementation provides simplified firewall management, secure communication between application layers, and improved cloud networking best practices.
