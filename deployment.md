@@ -1,54 +1,63 @@
-# Deployment Steps
+# Azure CLI Commands
 
-This project demonstrates how to configure Network Security Groups (NSGs) and Application Security Groups (ASGs) in Microsoft Azure.
+This file contains the Azure CLI commands used to create the resources in this project.
 
-## Step 1: Create a Resource Group
+## Create Resource Group
 
-* Sign in to the Azure Portal.
-* Create a new Resource Group named **AzureNSGRG**.
+```bash
+az group create --name AzureNSGRG --location eastus
+```
 
-## Step 2: Create a Virtual Network
+## Create Virtual Network
 
-* Create a Virtual Network named **AzureVNet**.
-* Address Space: **10.0.0.0/16**.
+```bash
+az network vnet create \
+  --resource-group AzureNSGRG \
+  --name AzureVNet \
+  --address-prefix 10.0.0.0/16
+```
 
-## Step 3: Create Three Subnets
+## Create Subnets
 
-* Web Subnet – **10.0.1.0/24**
-* Application Subnet – **10.0.2.0/24**
-* Database Subnet – **10.0.3.0/24**
+```bash
+az network vnet subnet create \
+  --resource-group AzureNSGRG \
+  --vnet-name AzureVNet \
+  --name WebSubnet \
+  --address-prefix 10.0.1.0/24
 
-## Step 4: Create Application Security Groups
+az network vnet subnet create \
+  --resource-group AzureNSGRG \
+  --vnet-name AzureVNet \
+  --name AppSubnet \
+  --address-prefix 10.0.2.0/24
 
-Create three ASGs:
+az network vnet subnet create \
+  --resource-group AzureNSGRG \
+  --vnet-name AzureVNet \
+  --name DatabaseSubnet \
+  --address-prefix 10.0.3.0/24
+```
 
-* ASG-Web
-* ASG-App
-* ASG-Database
+## Create Network Security Group
 
-## Step 5: Create Virtual Machines
+```bash
+az network nsg create \
+  --resource-group AzureNSGRG \
+  --name AzureNSG
+```
 
-Deploy six virtual machines:
+## Create Application Security Groups
 
-* Web VM1 and Web VM2
-* App VM1 and App VM2
-* DB VM1 and DB VM2
+```bash
+az network asg create --resource-group AzureNSGRG --name ASG-Web
+az network asg create --resource-group AzureNSGRG --name ASG-App
+az network asg create --resource-group AzureNSGRG --name ASG-Database
+```
 
-Assign each VM to the appropriate subnet and ASG.
+## Verify Resources
 
-## Step 6: Create a Network Security Group
-
-Create an NSG named **AzureNSG** and associate it with the Virtual Network.
-
-## Step 7: Configure NSG Rules
-
-* Allow HTTP/HTTPS from Internet to ASG-Web.
-* Allow port 8080 from ASG-Web to ASG-App.
-* Allow MySQL port 3306 from ASG-App to ASG-Database.
-* Deny direct Internet access to the Database subnet.
-
-## Step 8: Verify Connectivity
-
-* Test Web to App communication.
-* Test App to Database communication.
-* Verify that Internet access to the Database is blocked.
+```bash
+az network asg list --resource-group AzureNSGRG
+az network nsg list --resource-group AzureNSGRG
+```
