@@ -1,0 +1,33 @@
+{
+  "networkSecurityGroup": "NSG-P028",
+  "rules": [
+    {
+      "priority": 100,
+      "source": "Internet",
+      "destination": "ASG-Web",
+      "port": "80,443",
+      "action": "Allow"
+    },
+    {
+      "priority": 110,
+      "source": "ASG-Web",
+      "destination": "ASG-App",
+      "port": "8080",
+      "action": "Allow"
+    },
+    {
+      "priority": 120,
+      "source": "ASG-App",
+      "destination": "ASG-Database",
+      "port": "3306",
+      "action": "Allow"
+    },
+    {
+      "priority": 130,
+      "source": "Internet",
+      "destination": "ASG-Database",
+      "port": "3306",
+      "action": "Deny"
+    }
+  ]
+}
