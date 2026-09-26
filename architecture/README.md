@@ -16,4 +16,4 @@ Application Security Groups (ASGs) group virtual machines based on their role, w
 
 The following diagram shows the Azure NSG and ASG architecture used in this project.
 
-![Azure Network Architecture](az admin.png)
+![Azure Network Architecture](network-architecture.png)
