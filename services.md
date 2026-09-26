@@ -1,60 +1,75 @@
-# Azure Services Used
+# Testing and Validation
 
-This project uses multiple Microsoft Azure networking services to implement Application Security Group (ASG) based Network Security Group (NSG) rule rationalisation.
+This document describes how the Azure Network Security Group (NSG) and Application Security Group (ASG) rules were tested.
 
-## 1. Azure Resource Group
+## Test Scenario 1 – Internet Access to Web Layer
 
-A Resource Group is a logical container that holds all Azure resources used in the project.
+**Source:** Internet
 
-**Resource Name:** AzureNSGRG
+**Destination:** ASG-Web
 
-## 2. Azure Virtual Network (VNet)
+**Port:** 80/443
 
-The Virtual Network provides a private network for communication between Azure resources.
+**Expected Result:** Allowed
 
-**VNet Name:** AzureVNet
+**Status:** Passed
 
-**Address Space:** 10.0.0.0/16
+The web virtual machines successfully received HTTP and HTTPS traffic from the Internet.
 
-## 3. Azure Subnets
+---
 
-The VNet is divided into three subnets.
+## Test Scenario 2 – Web Layer to Application Layer
 
-| Subnet | Address Prefix | Purpose |
-|--------|---------------|---------|
-| WebSubnet | 10.0.1.0/24 | Hosts Web Virtual Machines |
-| AppSubnet | 10.0.2.0/24 | Hosts Application Virtual Machines |
-| DatabaseSubnet | 10.0.3.0/24 | Hosts Database Virtual Machines |
+**Source:** ASG-Web
 
-## 4. Application Security Groups (ASGs)
+**Destination:** ASG-App
 
-Application Security Groups logically group virtual machines based on their application role.
+**Port:** 8080
 
-- **ASG-Web** – Web servers.
-- **ASG-App** – Application servers.
-- **ASG-Database** – Database servers.
+**Expected Result:** Allowed
 
-## 5. Network Security Group (NSG)
+**Status:** Passed
 
-The Network Security Group controls inbound and outbound traffic using security rules.
+Communication from the web servers to the application servers was successful.
 
-**NSG Name:** AzureNSG
+---
 
-## 6. Azure Virtual Machines
+## Test Scenario 3 – Application Layer to Database Layer
 
-Six virtual machines are used.
+**Source:** ASG-App
 
-- Web VM1
-- Web VM2
-- App VM1
-- App VM2
-- DB VM1
-- DB VM2
+**Destination:** ASG-Database
 
-## 7. Azure Network Watcher
+**Port:** 3306
 
-Azure Network Watcher is used to verify effective security rules and network connectivity.
+**Expected Result:** Allowed
 
-## Summary
+**Status:** Passed
 
-These Azure services work together to provide secure communication between Web, Application, and Database tiers using ASGs instead of IP-based NSG rules.
+Application servers successfully connected to the database servers.
+
+---
+
+## Test Scenario 4 – Internet Access to Database Layer
+
+**Source:** Internet
+
+**Destination:** ASG-Database
+
+**Port:** 3306
+
+**Expected Result:** Denied
+
+**Status:** Passed
+
+Direct access from the Internet to the database subnet was blocked by the Network Security Group.
+
+---
+
+## Validation Result
+
+- HTTP/HTTPS traffic allowed to the Web tier.
+- Web tier communicates with the Application tier.
+- Application tier communicates with the Database tier.
+- Internet access to the Database tier is denied.
+- NSG rules work correctly using Application Security Groups.
