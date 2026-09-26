@@ -11,3 +11,9 @@ The project is designed using three security layers:
 * **Database Layer** – Stores application data and accepts traffic only from the Application layer.
 
 Application Security Groups (ASGs) group virtual machines based on their role, while Network Security Groups (NSGs) control communication between these groups.
+
+## Network Architecture Diagram
+
+The following diagram shows the Azure NSG and ASG architecture used in this project.
+
+![Azure Network Architecture](az admin.png)
